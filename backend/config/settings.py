@@ -115,7 +115,7 @@ CORS_ALLOW_CREDENTIALS = True
 
 # LLM API Keys (never sent to frontend)
 GEMINI_API_KEY = config('GEMINI_API_KEY', default='')
-OPENAI_API_KEY = config('OPENAI_API_KEY', default='')
-ANTHROPIC_API_KEY = config('ANTHROPIC_API_KEY', default='')
+DEEPSEEK_API_KEY = config('DEEPSEEK_API_KEY', default='')
+GROQ_API_KEY = config('GROQ_API_KEY', default='')
 
 FILE_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024  # 10MB
