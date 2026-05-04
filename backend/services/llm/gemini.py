@@ -7,11 +7,11 @@ class GeminiAdapter(LLMAdapter):
 
     def send_message(self, messages: list, model_config: dict) -> dict:
         try:
-            import google.generativeai as genai
-            genai.configure(api_key=settings.GEMINI_API_KEY)
-            model = genai.GenerativeModel(self.MODEL_ID)
+            from google import genai
+            from google.genai import types
 
-            # Convert message history to Gemini format
+            client = genai.Client(api_key=settings.GEMINI_API_KEY)
+
             history = []
             last_user_message = ''
             for msg in messages:
@@ -19,10 +19,14 @@ class GeminiAdapter(LLMAdapter):
                 if msg == messages[-1] and msg['role'] == 'user':
                     last_user_message = msg['content']
                     continue
-                history.append({'role': role, 'parts': [msg['content']]})
+                history.append(types.Content(role=role, parts=[types.Part(text=msg['content'])]))
 
-            chat = model.start_chat(history=history)
-            response = chat.send_message(last_user_message or messages[-1]['content'])
+            contents = history + [types.Content(role='user', parts=[types.Part(text=last_user_message or messages[-1]['content'])])]
+
+            response = client.models.generate_content(
+                model=self.MODEL_ID,
+                contents=contents,
+            )
 
             tokens_used = 0
             if hasattr(response, 'usage_metadata') and response.usage_metadata:
