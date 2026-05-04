@@ -3,7 +3,7 @@ from .base import LLMAdapter, RateLimitError, LLMError
 
 
 class GeminiAdapter(LLMAdapter):
-    MODEL_ID = 'gemini-1.5-flash'
+    MODEL_ID = 'gemini-2.5-flash-preview-05-20'
 
     def send_message(self, messages: list, model_config: dict) -> dict:
         try:
