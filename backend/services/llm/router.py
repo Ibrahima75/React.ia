@@ -1,18 +1,17 @@
 from .gemini import GeminiAdapter
-from .openai_adapter import OpenAIAdapter
-from .claude_adapter import ClaudeAdapter
+from .deepseek_adapter import DeepSeekAdapter
+from .groq_adapter import GroqAdapter
 from .base import RateLimitError, LLMError
 from services.quota_manager import quota_manager
 
 
 ADAPTERS = {
     'gemini-flash': GeminiAdapter(),
-    'gpt-3.5': OpenAIAdapter(),
-    'claude-haiku': ClaudeAdapter(),
+    'deepseek': DeepSeekAdapter(),
+    'groq': GroqAdapter(),
 }
 
-# Fallback order when quota is exceeded
-FALLBACK_ORDER = ['gemini-flash', 'gpt-3.5', 'claude-haiku']
+FALLBACK_ORDER = ['gemini-flash', 'deepseek', 'groq']
 
 
 class LLMRouter:
